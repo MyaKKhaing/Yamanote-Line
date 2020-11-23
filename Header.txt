@@ -1,0 +1,86 @@
+/*-----------------------------*/
+/*  インクルードファイル       */
+/*-----------------------------*/
+#include <stdio.h>
+#include<stdbool.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+
+/*----------------------------*/
+/*　関数名：Calculate()       */
+/*----------------------------*/
+void Calculate(char*, char*,int);
+
+#define	FILE_ONE	"Cash_Payment.csv"																	/*	ファイル名		*/
+#define	FILE_TWO	"IC_Payment.csv"																	/*	ファイル名		*/
+#define READ		"r"																					/*	ファイルを読む	*/
+
+#define YAMANOTE_LINE_ALL_STATION	"山手線の駅 \n\n"													/*	メッセージ	*/
+#define DEPARTURE					"\n\n\n出発駅名    :"													/*	メッセージ	*/
+#define	ARRIVAL						"到着駅名    :"														/*	メッセージ	*/
+#define FILE_NOT_OPEN				"ファイルを開けません\n"											/*	メッセージ	*/
+#define NAME_DOES_NOT_EXIST			"入力した駅名はありません。"										/*	メッセージ	*/
+#define SAME_STATION				"\n出発駅と到着駅は同じです。\n違う駅名を入力してください。\n"		/*	エラーメッセージ	*/
+#define SELECT_PAYMENT_TYPE			"お支払う方法を選択してください   :"								/*	ユーザーに支払う方法を選択させるメッセージ	*/
+#define	YEN							"%d円\n"															/*	マネーユニット		*/
+#define	ERROR_MSG					"エラー!\n"															/*	エラーメッセージ	*/
+#define	ENTER						"\n"																/*	次の行に行く		*/
+
+#define ONE_TAB			"\t"																			/*	1つのタブ	*/
+#define	TWO_TAB			"\t\t"																			/*	2つのタブ	*/
+
+#define SIZE			 29																				/*	配列サイズ	*/
+#define FIlEMAXSIZE		 1024																			/*	ファイルの配列サイズ	*/
+
+#define SHINAGAWA		"品川"																			/*	駅名	*/
+#define OSAKI			"大崎"																			/*	駅名	*/
+#define GOTANDA			"五反田"																		/*	駅名	*/
+#define MEGURO			"目黒"																			/*	駅名	*/
+#define EBISU			"恵比寿"																		/*	駅名	*/
+#define SHIBUYA			"渋谷"																			/*	駅名	*/
+#define HARAJUKU		"原宿"																			/*	駅名	*/
+#define YOYOGI			"代々木"																		/*	駅名	*/
+#define SHINJUKU		"新宿"																			/*	駅名	*/
+#define SHIN_OKUBO		"新大久保"																		/*	駅名	*/
+#define TAKADANOBABA	"高田馬場"																		/*	駅名	*/
+#define MEJIRO			"目白"																			/*	駅名	*/
+#define IKEBUKURO		"池袋"																			/*	駅名	*/
+#define OTSUKA			"大塚"																			/*	駅名	*/
+#define SUGAMO			"巣鴨"																			/*	駅名	*/
+#define KOMAGOME		"駒込"																			/*	駅名	*/
+#define TABATA			"田端"																			/*	駅名	*/
+#define NISHI_NIPPORI   "西日暮里"																		/*	駅名	*/
+#define NIPPORI			"日暮里"																		/*	駅名	*/
+#define UGUISUDANI		"鶯谷"																			/*	駅名	*/
+#define UENO			"上野"																			/*	駅名	*/
+#define OKACHIMACHI		"御徒町"																		/*	駅名	*/
+#define AKIHBARA		"秋葉原"																		/*	駅名	*/
+#define KANDA			"神田"																			/*	駅名	*/
+#define TOKYO			"東京"																			/*	駅名	*/
+#define YURAKUCHO		"有楽町"																		/*	駅名	*/
+#define SHIMBASHI		"新橋"																			/*	駅名	*/
+#define HAMAMATSUCHO	"浜松町"																		/*	駅名	*/
+#define TAMACHI			"田町"																			/*	駅名	*/
+
+#define ADULT_CASH	"1。現金決済(大人)\n"																/*	メッセージ	*/
+#define	ADULD_IC	"2。IC決済(大人)\n"																	/*	メッセージ	*/
+#define	CHILD_CASH	"3。現金決済(小児)\n"																/*	メッセージ	*/
+#define	CHILD_IC	"4。IC決済(小児)\n\n"																/*	メッセージ	*/
+
+#define	ADULT_BY_CASH		"現金決済(大人)    ："														/*	メッセージ	*/
+#define	ADULT_BY_IC_CARD	"IC決済(大人)    :"															/*	メッセージ	*/
+#define	CHILD_BY_CASH		"現金決済(小児)    :"														/*	メッセージ	*/
+#define	CHILD_BY_IC_CARD	"IC決済(小児)    ："														/*	メッセージ	*/
+
+#define ZERO	0																						/*	初期化番号		*/
+#define ONE		1																						/*  払う方法の番号	*/
+#define	TWO		2																						/*  払う方法の番号　*/
+#define	THREE	3																						/*  払う方法の番号　*/
+#define	FOUR	4																						/*  払う方法の番号　*/
+#define SEVEN	7																						/*	次の行に行くようにカウント	*/
+#define EIGHT	8																						/*	文字列の長さ	*/
+#define	TEN		10																						/*	割る			*/
+#define TWELVE	12																						/*  配列文字列長さ  */					
+#define TWENTY	20																						/*  文字の長さ		*/
+
