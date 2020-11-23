@@ -1,0 +1,190 @@
+/*------------------------*/
+/*  インクルードファイル  */
+/*------------------------*/
+#include "Header.h"
+
+/*---------------------------*/
+/*  関数名：Calculate()      */
+/*  概要：　　　　　　   　　*/
+/*--------------------------------------------------------------*/
+/*  入力パラメータ：char* departure, char* arrival,int  type    */
+/*  出力パラメータ：なし  	                                    */
+/*  戻り値：なし　　　　　	                                    */
+/*--------------------------------------------------------------*/
+void Calculate(char* departure, char* arrival,int type)
+{
+    int row_count = ZERO;                                                                           /*  row の変数を作成する      */
+    int column_count = ZERO;                                                                        /*  column の変数を作成する   */
+    int i = ZERO;                                                                                   /*  iの変数を作成する         */
+    int departuret_NO = ZERO;                                                                       /*  departuret_NOの変数を作成する   */
+    int arrival_NO = ZERO;                                                                          /*  arrival_NOの変数を作成する      */
+    int result;                                                                                     /*  resultの変数を作成する          */
+    char* token = NULL;                                                                             /*  token の変数を作成する  */
+    char* cost_ONE      = " ";                                                                      /*  cost の変数を作成する   */
+    char* cost_TWO      = " ";                                                                      /*  cost の変数を作成する   */
+    char* cost_THREE    = " ";                                                                      /*  cost の変数を作成する   */
+    char* cost_FOUR     = " ";                                                                      /*  cost の変数を作成する   */
+    char TEXT[FIlEMAXSIZE];                                                                         /*	ファイル配列の変数を作成する	*/
+                                                                
+    char station_name[SIZE][TWELVE] = { SHINAGAWA,OSAKI,GOTANDA,MEGURO,EBISU,
+                                       SHIBUYA,HARAJUKU,YOYOGI,SHINJUKU,SHIN_OKUBO,
+                                       TAKADANOBABA,MEJIRO,IKEBUKURO,OTSUKA,SUGAMO,
+                                       KOMAGOME,TABATA,NISHI_NIPPORI,NIPPORI,UGUISUDANI,
+                                       UENO,OKACHIMACHI,AKIHBARA,KANDA,TOKYO,
+                                       YURAKUCHO,SHIMBASHI,HAMAMATSUCHO,TAMACHI };                  /* 配列を作成する   */
+        
+    FILE* file_ONE;                                                                                 /* ファイル1を宣言する   */
+    FILE* file_TWO;                                                                                 /* ファイル2を宣言する   */
+
+    fopen_s(&file_ONE,FILE_ONE ,READ );                                                             /* ファイルオープンして読む */
+    fopen_s(&file_TWO,FILE_TWO, READ);                                                              /* ファイルオープンして読む */
+
+    if (file_ONE == NULL || file_TWO == NULL)                                                       /* チェックする   */
+    {
+        printf(FILE_NOT_OPEN);                                                                      /*  表示する    */
+        exit(ONE);                                                                                  /*  プロセスの外に出る */
+    }
+
+    for (i = ZERO; i < SIZE; i++)
+    {
+        if (strcmp(departure, station_name[i]) == ZERO)                                             /* 出発駅と山の手線の駅を比較する  */
+        {
+            departuret_NO = i;
+        }
+        if (strcmp(arrival, station_name[i]) == ZERO)                                               /* 到着駅と山の手線の駅を比較する  */
+        {
+            arrival_NO = i;
+        }
+    }
+
+    if (type == ONE)
+    {
+        while (fgets(TEXT, FIlEMAXSIZE, file_ONE))                                                  /*  ファイル内の文字の行を読み取る */
+        {
+            if (row_count != departuret_NO + ONE)                                                   /* 出発駅かどうかをチェックする   */
+            {
+                row_count++;                                                                        /* 次の行に行く */
+                continue;                                                                           /* ファイルの次の行を読み取る    */
+            }
+
+            cost_ONE = strtok_s(TEXT, ",", &token);                                                 /* 最初のトークンを取得する  */
+
+            while (cost_ONE)
+            {
+                cost_ONE = strtok_s(NULL, ",", &token);
+                column_count++;                                                                     /* 次の列に行く */
+                if (column_count == arrival_NO + ONE)                                               /* 到着駅かどうかをチェックする*/
+                {
+                    break;                                                                          /*  現行のプロセスをストップ    */
+                }
+            }
+
+            int num_ONE = atoi(cost_ONE);                                                           /*  文字列を整数に変更する */
+            printf(YEN, num_ONE);                                                                   /*  運賃を表示する         */
+            fclose(file_ONE);                                                                       /* ファイル1をクローズ     */         
+        }
+    }
+
+    if (type == TWO)
+    {
+        while (fgets(TEXT, FIlEMAXSIZE, file_TWO))                                                  /*  ファイル内の文字の行を読み取る */
+        {
+            if (row_count != departuret_NO + ONE)                                                   /* 出発駅かどうかをチェックする   */
+            {
+                row_count++;                                                                        /* 次の行に行く */
+                continue;                                                                           /* ファイルの次の行を読み取る    */
+            }
+
+            cost_TWO = strtok_s(TEXT, ",", &token);                                                 /* 最初のトークンを取得する */
+
+            while (cost_TWO)
+            {
+                cost_TWO = strtok_s(NULL, ",", &token);
+                column_count++;                                                                     /* 次の列に行く */
+                if (column_count == arrival_NO + ONE)                                               /* 到着駅かどうかをチェックする   */
+                {
+                    break;                                                                          /*  現行のプロセスをストップ    */
+                }
+            }
+
+            int num_TWO = atoi(cost_TWO);                                                           /*  文字列を整数に変更する */
+            printf(YEN, num_TWO);                                                                   /*  運賃を表示する */
+            fclose(file_TWO);                                                                       /* ファイル2をクローズ   */
+        }
+    }
+
+    if (type == THREE)
+    {
+        while (fgets(TEXT, FIlEMAXSIZE, file_ONE))                                                  /*  ファイル内の文字の行を読み取る */
+        {
+            if (row_count != departuret_NO + ONE)                                                   /* 出発駅かどうかをチェックする   */
+            {
+                row_count++;                                                                        /* 次の行に行く */
+                continue;                                                                           /* ファイルの次の行を読み取る    */
+            }
+
+            cost_THREE = strtok_s(TEXT, ",", &token);                                               /* 最初のトークンを取得する */
+
+            while (cost_THREE)
+            {
+                cost_THREE = strtok_s(NULL, ",", &token);
+                column_count++;                                                                     /* 次の列に行く */
+                if (column_count == arrival_NO + ONE)                                               /* 到着駅かどうかをチェックする   */
+                {
+                    break;                                                                          /*  現行のプロセスをストップ    */
+                }
+            }
+
+            int num_THREE = atoi(cost_THREE);                                                       /*  文字列を整数に変更する     */
+            num_THREE = num_THREE / TWO;                                                            /*  運賃は2で割る     */
+
+            if ((num_THREE % TEN) < TEN)                                                            /*  10円未満かをチェックする   */
+            {
+                result = num_THREE - (num_THREE % TEN);                                             /*  運賃を計算する     */
+                printf(YEN, result);                                                                /*  運賃を表示する     */
+            }
+            else
+            {
+                printf(YEN, num_THREE);                                                             /*  運賃を表示する     */
+            }
+            fclose(file_ONE);                                                                       /* ファイル1をクローズ   */
+        }
+    }
+
+    if (type == FOUR)
+    {
+        while (fgets(TEXT, FIlEMAXSIZE, file_TWO))                                                  /*  ファイル内の文字の行を読み取る */
+        {
+            if (row_count != departuret_NO + ONE)                                                   /* 出発駅かどうかをチェックする   */
+            {
+                row_count++;                                                                        /* 次の行に行く */
+                continue;                                                                           /* ファイルの次の行を読み取る    */
+            }
+            cost_FOUR = strtok_s(TEXT, ",", &token);                                                /* 最初のトークンを取得する */
+
+            while (cost_FOUR)
+            {
+                cost_FOUR = strtok_s(NULL, ",", &token);
+                column_count++;                                                                     /* 次の列に行く */
+                if (column_count == arrival_NO + ONE)                                               /* 到着駅かどうかをチェックする   */
+                {
+                    break;                                                                          /*  現行のプロセスをストップ    */
+                }
+            }
+
+            int num_FOUR = atoi(cost_FOUR);                                                         /*  文字列を整数に変更する*/
+            num_FOUR = num_FOUR /TWO;                                                               /*  運賃は2で割る     */
+            printf(YEN, num_FOUR);                                                                  /*  運賃を表示する    */
+            fclose(file_TWO);                                                                       /* ファイル2をクローズ   */
+        }
+    }
+   
+}
+
+
+
+
+
+
+
+
