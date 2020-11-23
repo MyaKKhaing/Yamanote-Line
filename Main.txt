@@ -1,0 +1,147 @@
+/*-----------------------------*/
+/*  インクルードファイル      	           */
+/*-----------------------------*/
+#include "Header.h"
+
+/*-----------------------------*/
+/*　関数名：main()                             */
+/*-----------------------------*/
+int main(int args, char* argv[])
+{
+    char departure[TWENTY] = " ";				/*  出発の変数を作成する       */
+    char arrival[TWENTY] = " ";                                                           /*  到着の変数を作成する       */
+    int lenght;                                                                                 /*  長さの変数を作成する       */
+    int count = ZERO;                                                                           /*  カウントの変数を作成する   */
+    int i;                                                                                      /*  iの変数を作成する          */
+    int type;                                                                                   /*  iの変数を作成する          */
+    int check;                                                                                  /*  チェックの変数を作成する   */
+    bool check_ONE = true;                                                                      /*  チェック1の変数を作成する  */
+    bool check_TWO = true;                                                                      /*  チェック2の変数を作成する  */
+    bool check_THREE = true;                                                                    /*  チェック3の変数を作成する  */
+    bool check_FOUR = true;                                                                     /*  チェック4の変数を作成する  */
+
+    char station_name[SIZE][TWELVE] = { SHINAGAWA,OSAKI,GOTANDA,MEGURO,EBISU,
+                                        SHIBUYA,HARAJUKU,YOYOGI,SHINJUKU,SHIN_OKUBO,
+                                        TAKADANOBABA,MEJIRO,IKEBUKURO,OTSUKA,SUGAMO,
+                                        KOMAGOME,TABATA,NISHI_NIPPORI,NIPPORI,UGUISUDANI,
+                                        UENO,OKACHIMACHI,AKIHBARA,KANDA,TOKYO,
+                                        YURAKUCHO,SHIMBASHI,HAMAMATSUCHO,TAMACHI };             /* 配列を作成する        */    
+
+    printf(YAMANOTE_LINE_ALL_STATION);                                                          /*  ユーザーに表示する   */
+    for (i = ZERO; i < SIZE; i++)
+    {
+        printf("%s", station_name[i]);                                                          /*  ユーザーに山の手線全駅を表示する   */
+        lenght = strlen(station_name[i]);                                                       /*  文字数を数える */
+
+        if (lenght < EIGHT)                                                                     /*  文字列の長さは8未満かをチェックする    */
+        {
+            printf(TWO_TAB);                                                                    /*  2つのタブを表示する  */
+        }
+        else
+        {
+            printf(ONE_TAB);                                                                    /*  1タブを表示する  */
+        }
+
+        count++;                                                                                /*  配列の次のルームへ行く     */
+
+        if (count == SEVEN)                                                                     /*  7かどうかをチェックする    */
+        {
+            printf(ENTER);                                                                       /*  次の行に行く */
+            count = ZERO;
+        }
+    }
+
+    while (check_ONE)
+    {
+        check_ONE = true;                                                                       /*  何回もできる  */
+        check_TWO = true;                                                                       /*  何回もできる  */
+        check_THREE = true;                                                                     /*  何回もできる  */
+
+        while (check_TWO)
+        {
+            printf(DEPARTURE);                                                                  /*  出発を表示する */
+            scanf_s("%s", &departure, TWENTY);                                                  /*  ユーザーに出発を入力する　*/
+            for (i = ZERO; i < SIZE; i++)
+            {
+                check = strcmp(departure, station_name[i]);                                     /*  出発は山の手線にあるかを比べる  */
+                if (check == ZERO)
+                {
+                    check_TWO = false;                                                          /*  whileループから出る     */
+                    break;                                                                      /*  現行のプロセスをストップ*/
+                }
+            }
+            if (check != ZERO)
+            {
+                printf(NAME_DOES_NOT_EXIST);                                                    /*  同じではない場合、エラーと表示する */
+            }
+        }
+
+        while (check_THREE)
+        {
+            printf(ARRIVAL);                                                                    /*  到着を表示する */
+            scanf_s("%s", &arrival, TWENTY);                                                    /*  ユーザーに到着を入力する　*/
+            for (i = ZERO; i < SIZE; i++)
+            {
+                check = strcmp(arrival, station_name[i]);                                       /*  到着は山の手線にあるかを比べる  */
+                if (check == ZERO)
+                {
+                    check_THREE = false;                                                        /*  whileループから出る     */
+                    break;                                                                      /*  現行のプロセスをストップ    */
+                }
+            }
+            if (check != ZERO)
+            {
+                printf(NAME_DOES_NOT_EXIST);                                                    /*  同じではない場合、エラーと表示する */
+            }
+        }
+
+        check = strcmp(departure, arrival);
+        if (check == ZERO)                                                                      /* 出発駅と到着駅は同じか比べる   */
+        {
+            printf(SAME_STATION);                                                               /*　表示する */
+        }
+        else
+        {
+            check_ONE = false;                                                                  /*  whileループから出る     */
+        }
+    }
+
+    printf("\n");
+    printf(ADULT_CASH);                                                                         /*　表示する */
+    printf(ADULD_IC);                                                                           /*　表示する */
+    printf(CHILD_CASH);                                                                         /*　表示する */
+    printf(CHILD_IC);                                                                           /*　表示する */
+
+    while (check_FOUR)
+    {
+        printf(SELECT_PAYMENT_TYPE);
+        scanf_s("%d", &type);
+        if (type == ONE)                                                                        /*  番号は　1かを確認する */
+        {
+            printf(ADULT_BY_CASH);                                                              /*　表示する */
+            check_FOUR = false;                                                                 /*  whileループから出る   */
+        }
+        else if (type == TWO)                                                                   /*  番号は　2かを確認する */
+        {
+            printf(ADULT_BY_IC_CARD);                                                           /*　表示する */
+            check_FOUR = false;                                                                 /*  whileループから出る   */
+        }
+        else if (type == THREE)                                                                 /*  番号は　3かを確認する */
+        {
+            printf(CHILD_BY_CASH);                                                              /*　表示する */
+            check_FOUR = false;                                                                 /*  whileループから出る   */
+        }
+        else if (type == FOUR)                                                                  /*  番号は　4かを確認する */
+        {
+            printf(CHILD_BY_IC_CARD);                                                           /*　表示する */
+            check_FOUR = false;                                                                 /*  whileループから出る   */
+        }
+        else
+        {
+            printf(ERROR_MSG);                                                                  /*　表示する */
+        }
+    }
+
+    Calculate(departure, arrival, type);                                                        /*  関数呼び出す  */    
+    return ZERO;                                                                                /*  システムに0を返する */
+}
